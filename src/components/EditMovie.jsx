@@ -1,7 +1,11 @@
 import React from "react";
+import { confirmAlert } from "react-confirm-alert";
+import { Link } from "react-router-dom";
 import Input from "./form-components/Input";
 import Select from "./form-components/Select";
 import TextArea from "./form-components/TextArea";
+import Alert from "./ui-components/Alert";
+import 'react-confirm-alert/src/react-confirm-alert.css';
 
 //TODO Переделать все под функциональную компоненту
 //TODO с использованием хуков
@@ -32,7 +36,11 @@ export default class EditMovie extends React.Component {
             ],
             isLoaded: false,
             error: null,
-            errors: []
+            errors: [],
+            alert: {
+                type: "d-none",
+                message: ""
+            }
         }
 
         this.handleChange = this.handleChange.bind(this);
@@ -65,7 +73,16 @@ export default class EditMovie extends React.Component {
         fetch("http://localhost:4000/v1/admin/editmovie", requestOptions)
             .then(response => response.json())
             .then(data => {
-                console.log(data);
+                if (data.error) {
+                    this.setState({
+                        alert: { type: "alert-danger", message: data.error.message }
+                    })
+                }
+                else {
+                    this.setState({
+                        alert: { type: "alert-success", message: "Changes saved!" }
+                    })
+                }
             })
 
     }
@@ -127,6 +144,41 @@ export default class EditMovie extends React.Component {
         }
     }
 
+    confirmDelete = (e) => {
+
+
+        confirmAlert({
+            title: 'Delete movie?',
+            message: 'Are you sure to do this?',
+            buttons: [
+                {
+                    label: 'Yes',
+                    onClick: () => {
+                        fetch("http://localhost:4000/v1/admin/deletemovie/" + this.state.movie.id, { method: "GET" })
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.error) {
+                                    this.setState({
+                                        alert: { type: "alert-danger", message: data.error.message }
+                                    })
+                                }
+                                else {
+                                    this.props.history.push({
+                                        pathname: "/admin"
+                                    })
+
+                                }
+                            })
+                    }
+                },
+                {
+                    label: 'No',
+                    onClick: () => { }
+                }
+            ]
+        });
+    }
+
     render() {
         let { movie, isLoaded, error } = this.state;
 
@@ -139,6 +191,7 @@ export default class EditMovie extends React.Component {
             return (
                 <>
                     <h2>Add/Edit Movie</h2>
+                    <Alert alertType={this.state.alert.type} alertMessage={this.state.alert.message} />
                     <hr />
                     <form onSubmit={this.handleSubmit}>
                         <input type="hidden" name="id" id="id" value={movie.id} onChange={this.handleChange} />
@@ -157,7 +210,7 @@ export default class EditMovie extends React.Component {
                         <Input
                             name="release_date"
                             title="Release date"
-                            type="text"
+                            type="date"
                             value={movie.release_date}
                             handleChange={this.handleChange}
 
@@ -197,11 +250,15 @@ export default class EditMovie extends React.Component {
                         />
                         <hr />
                         <button className="btn btn-primary" >Save</button>
+                        <Link to="/admin" className="btn btn-warning ms-1">
+                            Cancel
+                        </Link>
+                        {movie.id > 0 && (
+                            <a href="#" onClick={() => this.confirmDelete()} className="btn btn-danger ms-1">Delete</a>
+                        )}
                     </form>
 
-                    <div className="mt-3">
-                        <pre>{JSON.stringify(this.state, null, 3)}</pre>
-                    </div>
+
                 </>
             )
         }
