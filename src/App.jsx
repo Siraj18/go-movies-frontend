@@ -1,5 +1,5 @@
 
-import { BrowserRouter as Router, Switch, Route, Link, useParams } from 'react-router-dom'
+import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
 import Admin from './components/Admin'
 import EditMovie from './components/EditMovie'
 import Genres from './components/Genres'
@@ -69,8 +69,4 @@ function App() {
 
 export default App;
 
-function Movie() {
-  let { id } = useParams();
 
-  return <h2>Movie id:{id}</h2>
-}
