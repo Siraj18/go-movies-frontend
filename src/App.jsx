@@ -1,5 +1,5 @@
 
-import { BrowserRouter as Router, Switch, Route, Link, useParams, useRouteMatch } from 'react-router-dom'
+import { BrowserRouter as Router, Switch, Route, Link, useParams } from 'react-router-dom'
 import Admin from './components/Admin'
 import EditMovie from './components/EditMovie'
 import Genres from './components/Genres'
@@ -35,7 +35,7 @@ function App() {
                   <Link to='/admin'>Manage Catalog</Link>
                 </li>
                 <li className="list-group-item">
-                  <Link to='/admin/add'>Add movie</Link>
+                  <Link to='/admin/movie/0'>Add movie</Link>
                 </li>
               </ul>
             </nav>
@@ -54,7 +54,7 @@ function App() {
 
               <Route exact path='/admin' component={Admin} />
 
-              <Route path='/admin/add' component={EditMovie} />
+              <Route path='/admin/movie/:id' component={EditMovie} />
               <Route path='/' component={Home} />
 
             </Switch>
