@@ -80,7 +80,9 @@ export default class App extends React.Component {
                       </li>
                     </>
                   }
-
+                  <pre>
+                    {JSON.stringify(this.state, null, 3)}
+                  </pre>
                 </ul>
               </nav>
 
