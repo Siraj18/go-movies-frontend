@@ -100,7 +100,9 @@ export default class App extends React.Component {
 
                 <Route exact path='/admin' component={Admin} />
 
-                <Route path='/admin/movie/:id' component={EditMovie} />
+                <Route path='/admin/movie/:id' component={(props) => (
+                  <EditMovie {...props} jwt={this.state.jwt} />
+                )} />
                 <Route exact path='/' component={Home} />
 
                 <Route path="/login" component={(props) => <Login {...props} handleJWTChange={this.handleJWTChange} />} />
