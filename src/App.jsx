@@ -21,6 +21,15 @@ export default class App extends React.Component {
     this.handleJWTChange(this.handleJWTChange.bind(this));
   }
 
+  componentDidMount() {
+    let t = window.localStorage.getItem("jwt");
+
+    if (t) {
+      if (this.state.jwt === "") {
+        this.setState({ jwt: JSON.parse(t) })
+      }
+    }
+  }
 
   handleJWTChange = (jwt) => {
     this.setState({ jwt: jwt });
@@ -29,6 +38,7 @@ export default class App extends React.Component {
 
   logout = () => {
     this.setState({ jwt: "" })
+    window.localStorage.removeItem("jwt");
   }
 
 
@@ -98,7 +108,12 @@ export default class App extends React.Component {
                 <Route exact path='/genres' component={Genres} />
 
 
-                <Route exact path='/admin' component={Admin} />
+                <Route exact path='/admin' component={(props) => (
+                  <Admin {...props} jwt={this.state.jwt} />
+                )} />
+
+
+
 
                 <Route path='/admin/movie/:id' component={(props) => (
                   <EditMovie {...props} jwt={this.state.jwt} />
