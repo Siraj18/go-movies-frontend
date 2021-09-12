@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
 import Admin from './components/Admin'
 import EditMovie from './components/EditMovie'
 import Genres from './components/Genres'
+import GraphQl from './components/GraphQl'
 import Home from './components/Home'
 import Login from './components/Login'
 import Movies from './components/Movies'
@@ -90,6 +91,9 @@ export default class App extends React.Component {
                       </li>
                     </>
                   }
+                  <li className="list-group-item">
+                    <Link to="/graphql">Graphql</Link>
+                  </li>
                   <pre>
                     {JSON.stringify(this.state, null, 3)}
                   </pre>
@@ -112,7 +116,7 @@ export default class App extends React.Component {
                   <Admin {...props} jwt={this.state.jwt} />
                 )} />
 
-
+                <Route exact path="/graphql" component={GraphQl} />
 
 
                 <Route path='/admin/movie/:id' component={(props) => (
