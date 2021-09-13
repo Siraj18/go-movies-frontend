@@ -10,6 +10,7 @@ import Login from './components/Login'
 import Movies from './components/Movies'
 import OneGenre from './components/OneGenre'
 import OneMovie from './components/OneMovie'
+import OneMovieGraphQL from './components/OneMovieGraphQL'
 
 export default class App extends React.Component {
 
@@ -105,6 +106,7 @@ export default class App extends React.Component {
               <Switch>
 
                 <Route path='/movies/:id' component={OneMovie} />
+                <Route path='/moviesgraphql/:id' component={OneMovieGraphQL} />
 
                 <Route path='/movies' component={Movies} />
 
@@ -125,6 +127,8 @@ export default class App extends React.Component {
                 <Route exact path='/' component={Home} />
 
                 <Route path="/login" component={(props) => <Login {...props} handleJWTChange={this.handleJWTChange} />} />
+
+
 
               </Switch>
             </div>
