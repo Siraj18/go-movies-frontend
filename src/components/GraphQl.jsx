@@ -28,6 +28,13 @@ export default class GraphQl extends Component {
             })
         )
 
+        if (value.length > 2) {
+            this.performSearch();
+        }
+        else {
+            this.setState({ movies: [] });
+        }
+
         this.performSearch();
     }
 

@@ -95,9 +95,7 @@ export default class App extends React.Component {
                   <li className="list-group-item">
                     <Link to="/graphql">Graphql</Link>
                   </li>
-                  <pre>
-                    {JSON.stringify(this.state, null, 3)}
-                  </pre>
+
                 </ul>
               </nav>
 
